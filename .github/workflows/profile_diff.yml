@@ -19,10 +19,11 @@ jobs:
         run: |
           git clone https://github.com/OffchainLabs/nitro-devnode.git
           cd nitro-devnode
-          ./run-dev-node.sh > node.log 2>&1 &
+          nohup ./run-dev-node.sh > node.log 2>&1 < /dev/null &
+          disown
           
           # Wait until the node finishes its full initialization (CREATE2, Cache Manager)
-          until [ -f node.log ] && grep -q "Nitro node is running" node.log; do
+          until [ -f node.log ] && grep -q "press Ctrl-C to stop" node.log; do
             sleep 1
           done
 
@@ -40,16 +41,28 @@ jobs:
           # The dev-node comes with pre-funded accounts. This is the 0th test account key:
           PKEY="0xb6b15c8cb491557369f3c7d2c287b053eb229daa9c22138887752191c9520659"
           
-          # Deploy contract and manually parse the deployed address
+          echo "Deploying contract..."
           DEPLOY_OUT=$(cargo stylus deploy --endpoint http://localhost:8547 --private-key $PKEY)
           CONTRACT_ADDR=$(echo "$DEPLOY_OUT" | grep 'deployed code at' | awk '{print $NF}')
           
-          # Send transaction to the new contract and capture the JSON output of the transaction receipt
+          if [ -z "$CONTRACT_ADDR" ]; then
+            echo "Error: Failed to capture contract address."
+            echo "Deployment output: $DEPLOY_OUT"
+            exit 1
+          fi
+          echo "Contract deployed at: $CONTRACT_ADDR"
+          
+          echo "Sending transaction to trigger profile..."
           TX_JSON=$(cast send $CONTRACT_ADDR "give_cupcake_to(address)" 0x3f1Eae7D46d88F08fc2F8ed27FCb2AB183EB2d0E --private-key $PKEY --rpc-url http://localhost:8547 --json)
           
-          # Extract just the tx hash from the JSON
           TX_HASH=$(echo "$TX_JSON" | jq -r '.transactionHash')
+          if [ "$TX_HASH" == "null" ] || [ -z "$TX_HASH" ]; then
+            echo "Error: Failed to capture transaction hash."
+            echo "Cast output: $TX_JSON"
+            exit 1
+          fi
           
+          echo "Capture successful. Tx Hash: $TX_HASH"
           echo "tx_hash=$TX_HASH" >> $GITHUB_OUTPUT
 
       - name: Restore Baseline
@@ -76,7 +89,10 @@ jobs:
           key: stylus-profile-baseline-main-${{ github.sha }}
           
       - name: Upload Artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: stylus-trace-results
-          path: artifacts/
+          path: |
+            artifacts/
+            nitro-devnode/node.log

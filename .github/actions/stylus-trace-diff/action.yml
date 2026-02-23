@@ -24,7 +24,10 @@ runs:
   steps:
     - name: Install stylus-trace
       shell: bash
-      run: cargo install --path bin/stylus-trace
+      run: |
+        if ! command -v stylus-trace &> /dev/null; then
+          cargo install --git https://github.com/CreativesOnchain/Stylus-Trace.git stylus-trace
+        fi
 
     - name: Capture Profile
       shell: bash
@@ -34,4 +37,5 @@ runs:
         if [ -n "${{ inputs.baseline }}" ] && [ -f "${{ inputs.baseline }}" ]; then FLAGS="$FLAGS --baseline ${{ inputs.baseline }}"; fi
         if [ -n "${{ inputs.threshold_percent }}" ]; then FLAGS="$FLAGS --threshold-percent ${{ inputs.threshold_percent }}"; fi
         
-        stylus-trace capture $FLAGS
+        mkdir -p artifacts/capture
+        stylus-trace capture $FLAGS --output artifacts/capture/profile.json
