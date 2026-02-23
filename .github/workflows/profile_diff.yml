@@ -30,7 +30,7 @@ jobs:
         uses: foundry-rs/foundry-toolchain@v1
 
       - name: Install cargo-stylus
-        run: cargo build --release --manifest-path Cargo.toml && cargo install cargo-stylus
+        run: cargo build --release --manifest-path Cargo.toml && cargo install --locked cargo-stylus
 
       - name: Build and Deploy Contract
         id: deploy
