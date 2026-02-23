@@ -18,7 +18,7 @@ jobs:
       - name: Start Nitro Dev Node
         run: |
           git clone https://github.com/OffchainLabs/nitro-devnode.git
-          cd nitro-devnode && ./run-dev-node.sh --detach &
+          cd nitro-devnode && ./run-dev-node.sh &
           # Wait for node to be ready
           until curl -s http://localhost:8547; do sleep 5; done
 
