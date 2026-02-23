@@ -31,7 +31,7 @@ runs:
       run: |
         FLAGS="--tx ${{ inputs.tx_hash }} --rpc ${{ inputs.rpc_url }} --summary --flamegraph"
         if [ "${{ inputs.ink }}" == "true" ]; then FLAGS="$FLAGS --ink"; fi
-        if [ -n "${{ inputs.baseline }}" ]; then FLAGS="$FLAGS --baseline ${{ inputs.baseline }}"; fi
+        if [ -n "${{ inputs.baseline }}" ] && [ -f "${{ inputs.baseline }}" ]; then FLAGS="$FLAGS --baseline ${{ inputs.baseline }}"; fi
         if [ -n "${{ inputs.threshold_percent }}" ]; then FLAGS="$FLAGS --threshold-percent ${{ inputs.threshold_percent }}"; fi
         
         stylus-trace capture $FLAGS

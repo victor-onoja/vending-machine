@@ -18,9 +18,13 @@ jobs:
       - name: Start Nitro Dev Node
         run: |
           git clone https://github.com/OffchainLabs/nitro-devnode.git
-          cd nitro-devnode && ./run-dev-node.sh &
-          # Wait for node to be ready
-          until curl -s http://localhost:8547; do sleep 5; done
+          cd nitro-devnode
+          ./run-dev-node.sh > node.log 2>&1 &
+          
+          # Wait until the node finishes its full initialization (CREATE2, Cache Manager)
+          until [ -f node.log ] && grep -q "Nitro node is running" node.log; do
+            sleep 1
+          done
 
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
@@ -49,10 +53,13 @@ jobs:
           echo "tx_hash=$TX_HASH" >> $GITHUB_OUTPUT
 
       - name: Restore Baseline
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: artifacts/capture/profile.json
-          key: stylus-profile-baseline-${{ github.base_ref || github.ref_name }}
+          key: stylus-profile-baseline-${{ github.base_ref || github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            stylus-profile-baseline-${{ github.base_ref || github.ref_name }}-
+            stylus-profile-baseline-main-
 
       - name: Run Stylus Trace
         uses: ./.github/actions/stylus-trace-diff
@@ -66,7 +73,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: artifacts/capture/profile.json
-          key: stylus-profile-baseline-main
+          key: stylus-profile-baseline-main-${{ github.sha }}
           
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
