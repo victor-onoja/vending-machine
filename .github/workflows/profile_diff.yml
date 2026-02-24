@@ -108,11 +108,18 @@ jobs:
             stylus-profile-baseline-${{ github.base_ref || github.ref_name }}-
             stylus-profile-baseline-main-
 
+      - name: Prepare Baseline
+        run: |
+          if [ -f artifacts/capture/profile.json ]; then
+            echo "Moving restored profile to baseline.json"
+            mv artifacts/capture/profile.json artifacts/capture/baseline.json
+          fi
+
       - name: Run Stylus Trace
         uses: ./.github/actions/stylus-trace-diff
         with:
           tx_hash: ${{ steps.deploy.outputs.tx_hash }}
-          baseline: artifacts/capture/profile.json
+          baseline: artifacts/capture/baseline.json
           threshold_percent: 5.0
 
       - name: Update Baseline
