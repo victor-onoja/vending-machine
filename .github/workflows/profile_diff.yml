@@ -15,6 +15,9 @@ jobs:
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
 
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+
       - name: Start Nitro Dev Node
         run: |
           git clone --depth 1 https://github.com/OffchainLabs/nitro-devnode.git
@@ -44,9 +47,6 @@ jobs:
             tail -n 2 node.log
           done
           echo "Nitro node is fully initialized!"
-
-      - name: Install Foundry
-        uses: foundry-rs/foundry-toolchain@v1
 
       - name: Install cargo-stylus
         run: cargo build --release --manifest-path Cargo.toml && cargo install --locked cargo-stylus
