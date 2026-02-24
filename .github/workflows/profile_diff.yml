@@ -17,15 +17,33 @@ jobs:
 
       - name: Start Nitro Dev Node
         run: |
-          git clone https://github.com/OffchainLabs/nitro-devnode.git
+          git clone --depth 1 https://github.com/OffchainLabs/nitro-devnode.git
           cd nitro-devnode
+          touch node.log
           nohup ./run-dev-node.sh > node.log 2>&1 < /dev/null &
+          NODE_PID=$!
           disown
           
-          # Wait until the node finishes its full initialization (CREATE2, Cache Manager)
-          until [ -f node.log ] && grep -q "press Ctrl-C to stop" node.log; do
-            sleep 1
+          echo "Waiting for Nitro node to initialize (this can take 5-10 mins for image pulls)..."
+          TIMEOUT=900 # 15 minutes
+          ELAPSED=0
+          while ! grep -q "press Ctrl-C to stop" node.log; do
+            if ! kill -0 $NODE_PID 2>/dev/null; then
+              echo "Error: Nitro node process died unexpectedly!"
+              cat node.log
+              exit 1
+            fi
+            if [ $ELAPSED -ge $TIMEOUT ]; then
+              echo "Error: Timeout reached waiting for Nitro node startup!"
+              cat node.log
+              exit 1
+            fi
+            sleep 30
+            ELAPSED=$((ELAPSED + 30))
+            echo "--- Still waiting ($ELAPSED/900s elapsed) ---"
+            tail -n 2 node.log
           done
+          echo "Nitro node is fully initialized!"
 
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
