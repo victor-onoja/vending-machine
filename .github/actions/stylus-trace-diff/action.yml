@@ -32,10 +32,13 @@ runs:
     - name: Capture Profile
       shell: bash
       run: |
-        FLAGS="--tx ${{ inputs.tx_hash }} --rpc ${{ inputs.rpc_url }} --summary --flamegraph"
+        # stylus-trace auto-resolves relative paths into artifacts/capture/
+        # so we pass just the filename, not the full path
+        FLAGS="--tx ${{ inputs.tx_hash }} --rpc ${{ inputs.rpc_url }} --summary --flamegraph --output profile.json"
         if [ "${{ inputs.ink }}" == "true" ]; then FLAGS="$FLAGS --ink"; fi
         if [ -n "${{ inputs.baseline }}" ] && [ -f "${{ inputs.baseline }}" ]; then FLAGS="$FLAGS --baseline ${{ inputs.baseline }}"; fi
         if [ -n "${{ inputs.threshold_percent }}" ]; then FLAGS="$FLAGS --threshold-percent ${{ inputs.threshold_percent }}"; fi
-        
+
         mkdir -p artifacts/capture
-        stylus-trace capture $FLAGS --output artifacts/capture/profile.json
+        echo "Running: stylus-trace capture $FLAGS"
+        stylus-trace capture $FLAGS
