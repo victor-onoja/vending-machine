@@ -19,7 +19,7 @@ impl VendingMachine {
         // Burn gas intentionally — accumulate evm::gas_left() so the compiler
         // cannot dead-code-eliminate this loop (the branch below uses `total`).
         let mut total: u64 = 0;
-        for _ in 0..50000 {
+        for _ in 0..500000 {
             total = total.wrapping_add(evm::gas_left());
         }
         // Branch forces the optimizer to keep the entire loop.
