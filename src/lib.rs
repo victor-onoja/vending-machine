@@ -20,7 +20,7 @@ impl VendingMachine {
         // crossings that stylus-trace can see and measure.
         // Each .get() call hits storage_cache (warm) or storage_load (cold) HostIO.
         let mut acc = U256::ZERO;
-        for _ in 0..20 {
+        for _ in 0..50000 {
             acc = acc.wrapping_add(self.cupcake_balances.get(user_address));
         }
         // Use acc so the compiler cannot eliminate the loop
