@@ -3,7 +3,7 @@ extern crate alloc;
 
 use stylus_sdk::alloy_primitives::{Address, U256};
 use stylus_sdk::prelude::*;
-use stylus_sdk::{block, console, evm};
+use stylus_sdk::{block, console};
 
 sol_storage! {
     #[entrypoint]
@@ -16,15 +16,15 @@ sol_storage! {
 #[public]
 impl VendingMachine {
     pub fn give_cupcake_to(&mut self, user_address: Address) -> bool {
-        // Burn gas intentionally — accumulate evm::gas_left() so the compiler
-        // cannot dead-code-eliminate this loop (the branch below uses `total`).
-        let mut total: u64 = 0;
-        for _ in 0..500000 {
-            total = total.wrapping_add(evm::gas_left());
+        // Burn gas via repeated storage reads — these are real HostIO boundary
+        // crossings that stylus-trace can see and measure.
+        // Each .get() call hits storage_cache (warm) or storage_load (cold) HostIO.
+        let mut acc = U256::ZERO;
+        for _ in 0..20 {
+            acc = acc.wrapping_add(self.cupcake_balances.get(user_address));
         }
-        // Branch forces the optimizer to keep the entire loop.
-        // gas_left() can never be 0 mid-execution, so this never fires.
-        if total == 0 {
+        // Use acc so the compiler cannot eliminate the loop
+        if acc == U256::MAX {
             return false;
         }
         let last_distribution = self.cupcake_distribution_times.get(user_address);
