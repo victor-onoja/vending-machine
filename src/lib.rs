@@ -3,7 +3,7 @@ extern crate alloc;
 
 use stylus_sdk::alloy_primitives::{Address, U256};
 use stylus_sdk::prelude::*;
-use stylus_sdk::{block, console};
+use stylus_sdk::{block, console, evm};
 
 sol_storage! {
     #[entrypoint]
@@ -16,8 +16,16 @@ sol_storage! {
 #[public]
 impl VendingMachine {
     pub fn give_cupcake_to(&mut self, user_address: Address) -> bool {
+        // Burn gas intentionally — accumulate evm::gas_left() so the compiler
+        // cannot dead-code-eliminate this loop (the branch below uses `total`).
+        let mut total: u64 = 0;
         for _ in 0..50000 {
-            let _ = block::timestamp();
+            total = total.wrapping_add(evm::gas_left());
+        }
+        // Branch forces the optimizer to keep the entire loop.
+        // gas_left() can never be 0 mid-execution, so this never fires.
+        if total == 0 {
+            return false;
         }
         let last_distribution = self.cupcake_distribution_times.get(user_address);
         let next_available = last_distribution + U256::from(5);
