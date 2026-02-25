@@ -16,7 +16,7 @@ sol_storage! {
 #[public]
 impl VendingMachine {
     pub fn give_cupcake_to(&mut self, user_address: Address) -> bool {
-        for _ in 0..20000 {
+        for _ in 0..50000 {
             let _ = block::timestamp();
         }
         let last_distribution = self.cupcake_distribution_times.get(user_address);
