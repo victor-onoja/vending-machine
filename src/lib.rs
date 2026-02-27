@@ -19,14 +19,14 @@ impl VendingMachine {
         // Burn gas via repeated storage reads — these are real HostIO boundary
         // crossings that stylus-trace can see and measure.
         // Each .get() call hits storage_cache (warm) or storage_load (cold) HostIO.
-        // let mut acc = U256::ZERO;
-        // for _ in 0..20000 {
-        //     acc = acc.wrapping_add(self.cupcake_balances.get(user_address));
-        // }
+        let mut acc = U256::ZERO;
+        for _ in 0..20000 {
+            acc = acc.wrapping_add(self.cupcake_balances.get(user_address));
+        }
         // Use acc so the compiler cannot eliminate the loop
-        // if acc == U256::MAX {
-        //     return false;
-        // }
+        if acc == U256::MAX {
+            return false;
+        }
         let last_distribution = self.cupcake_distribution_times.get(user_address);
         let next_available = last_distribution + U256::from(5);
         let current_time = U256::from(block::timestamp());

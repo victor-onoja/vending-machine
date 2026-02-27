@@ -1,27 +1,27 @@
 {
   "version": "1.0.0",
-  "transaction_hash": "0x4e4e4857c4b31a20f2d638eed911bc32398e9fd2a2d11cbacb991d26f2dece25",
-  "total_gas": 442692355,
+  "transaction_hash": "0x04117d96be4cc37f36eb067353ccb46ac3bcaca1947eb450d3ced32f0dad720b",
+  "total_gas": 5237612355,
   "hostio_summary": {
-    "total_calls": 15,
+    "total_calls": 40015,
     "by_type": {
-      "native_keccak256": 3,
-      "storage_flush_cache": 1,
-      "msg_value": 1,
-      "other": 3,
-      "write_result": 1,
-      "storage_load": 2,
       "storage_cache": 2,
-      "msg_reentrant": 1,
-      "read_args": 1
+      "msg_value": 1,
+      "storage_load": 20002,
+      "read_args": 1,
+      "write_result": 1,
+      "native_keccak256": 20003,
+      "other": 3,
+      "storage_flush_cache": 1,
+      "msg_reentrant": 1
     },
-    "total_hostio_gas": 442692355
+    "total_hostio_gas": 5237612355
   },
   "hot_paths": [
     {
-      "stack": "storage_flush_cache",
-      "gas": 400068073,
-      "percentage": 90.37157937818917,
+      "stack": "native_keccak256",
+      "gas": 2436365400,
+      "percentage": 46.51671858980102,
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -31,8 +31,8 @@
     },
     {
       "stack": "storage_load_bytes32",
-      "gas": 42136960,
-      "percentage": 9.518339208726566,
+      "gas": 2401056960,
+      "percentage": 45.84258622553215,
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -41,9 +41,9 @@
       }
     },
     {
-      "stack": "native_keccak256",
-      "gas": 365400,
-      "percentage": 0.08254039083191306,
+      "stack": "storage_flush_cache",
+      "gas": 400068073,
+      "percentage": 7.638367368254767,
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -54,7 +54,7 @@
     {
       "stack": "write_result",
       "gas": 41162,
-      "percentage": 0.009298105001158198,
+      "percentage": 0.0007858924488885737,
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -65,7 +65,7 @@
     {
       "stack": "storage_cache_bytes32",
       "gas": 36960,
-      "percentage": 0.00834891309564178,
+      "percentage": 0.0007056650529838611,
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -76,7 +76,7 @@
     {
       "stack": "read_args",
       "gas": 13560,
-      "percentage": 0.0030630752591153288,
+      "percentage": 0.0002588965941142087,
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -87,18 +87,7 @@
     {
       "stack": "msg_value",
       "gas": 13440,
-      "percentage": 0.0030359683984151928,
-      "source_hint": {
-        "file": "unknown",
-        "line": null,
-        "column": null,
-        "function": "0x0"
-      }
-    },
-    {
-      "stack": "msg_reentrant",
-      "gas": 8400,
-      "percentage": 0.0018974802490094955,
+      "percentage": 0.0002566054738123131,
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -109,7 +98,18 @@
     {
       "stack": "block_timestamp",
       "gas": 8400,
-      "percentage": 0.0018974802490094955,
+      "percentage": 0.0001603784211326957,
+      "source_hint": {
+        "file": "unknown",
+        "line": null,
+        "column": null,
+        "function": "0x0"
+      }
+    },
+    {
+      "stack": "msg_reentrant",
+      "gas": 8400,
+      "percentage": 0.0001603784211326957,
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -142,18 +142,18 @@
   ],
   "all_stacks": [
     {
-      "stack": "storage_flush_cache",
-      "weight": 400068073,
+      "stack": "native_keccak256",
+      "weight": 2436365400,
       "last_pc": 0
     },
     {
       "stack": "storage_load_bytes32",
-      "weight": 42136960,
+      "weight": 2401056960,
       "last_pc": 0
     },
     {
-      "stack": "native_keccak256",
-      "weight": 365400,
+      "stack": "storage_flush_cache",
+      "weight": 400068073,
       "last_pc": 0
     },
     {
@@ -177,12 +177,12 @@
       "last_pc": 0
     },
     {
-      "stack": "msg_reentrant",
+      "stack": "block_timestamp",
       "weight": 8400,
       "last_pc": 0
     },
     {
-      "stack": "block_timestamp",
+      "stack": "msg_reentrant",
       "weight": 8400,
       "last_pc": 0
     },
@@ -197,5 +197,5 @@
       "last_pc": 0
     }
   ],
-  "generated_at": "2026-02-27T21:37:30.690809+00:00"
+  "generated_at": "2026-02-27T21:43:53.706831+00:00"
 }

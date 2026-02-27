@@ -24,6 +24,6 @@ jobs:
       - name: Run Stylus Performance Check
         uses: CreativesOnchain/Stylus-Trace@main
         with:
-          tx_hash: "0x50b6387367cd07d4ac30b51f61a69d06d10224b7ad191a403bd19f7bf109639c"
+          tx_hash: "0x04117d96be4cc37f36eb067353ccb46ac3bcaca1947eb450d3ced32f0dad720b"
           threshold: "1"
           skip_capture: "true"

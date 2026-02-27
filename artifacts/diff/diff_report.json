@@ -1,60 +1,50 @@
 {
   "diff_version": "1.0.0",
-  "generated_at": "2026-02-22T19:57:30.518502+00:00",
+  "generated_at": "2026-02-27T21:45:46.651788+00:00",
   "baseline": {
-    "transaction_hash": "0xa0ed113dc9a87886f90ef942860b457a59d310bcc93bf60c31d49ebcf22c2c41",
-    "total_gas": 100692355,
-    "generated_at": "2026-02-22T19:53:28.449749+00:00"
+    "transaction_hash": "0x4e4e4857c4b31a20f2d638eed911bc32398e9fd2a2d11cbacb991d26f2dece25",
+    "total_gas": 442692355,
+    "generated_at": "2026-02-27T21:37:30.690809+00:00"
   },
   "target": {
-    "transaction_hash": "0x78539eb175ec21dc1ec46045c07553ccd289699299061606dbe4385640a421b2",
-    "total_gas": 442692355,
-    "generated_at": "2026-02-22T19:50:53.950817+00:00"
+    "transaction_hash": "0x04117d96be4cc37f36eb067353ccb46ac3bcaca1947eb450d3ced32f0dad720b",
+    "total_gas": 5237612355,
+    "generated_at": "2026-02-27T21:43:53.706831+00:00"
   },
   "deltas": {
     "gas": {
-      "baseline": 100692355,
-      "target": 442692355,
-      "absolute_change": 342000000,
-      "percent_change": 339.648427132328
+      "baseline": 442692355,
+      "target": 5237612355,
+      "absolute_change": 4794920000,
+      "percent_change": 1083.126904235787
     },
     "hostio": {
       "baseline_total_calls": 15,
-      "target_total_calls": 15,
-      "total_calls_change": 0,
-      "total_calls_percent_change": 0.0,
+      "target_total_calls": 40015,
+      "total_calls_change": 40000,
+      "total_calls_percent_change": 266666.6666666666,
       "by_type_changes": {
-        "native_keccak256": {
-          "baseline": 3,
-          "target": 3,
-          "delta": 0
-        },
-        "storage_cache": {
-          "baseline": 2,
-          "target": 2,
-          "delta": 0
-        },
-        "msg_reentrant": {
-          "baseline": 1,
-          "target": 1,
-          "delta": 0
-        },
         "storage_load": {
           "baseline": 2,
-          "target": 2,
-          "delta": 0
+          "target": 20002,
+          "delta": 20000
         },
         "other": {
           "baseline": 3,
           "target": 3,
           "delta": 0
         },
-        "read_args": {
+        "msg_value": {
           "baseline": 1,
           "target": 1,
           "delta": 0
         },
-        "msg_value": {
+        "native_keccak256": {
+          "baseline": 3,
+          "target": 20003,
+          "delta": 20000
+        },
+        "msg_reentrant": {
           "baseline": 1,
           "target": 1,
           "delta": 0
@@ -64,58 +54,47 @@
           "target": 1,
           "delta": 0
         },
+        "storage_cache": {
+          "baseline": 2,
+          "target": 2,
+          "delta": 0
+        },
         "write_result": {
+          "baseline": 1,
+          "target": 1,
+          "delta": 0
+        },
+        "read_args": {
           "baseline": 1,
           "target": 1,
           "delta": 0
         }
       },
-      "baseline_total_gas": 100692355,
-      "target_total_gas": 442692355,
-      "gas_change": 342000000,
-      "gas_percent_change": 339.648427132328
+      "baseline_total_gas": 442692355,
+      "target_total_gas": 5237612355,
+      "gas_change": 4794920000,
+      "gas_percent_change": 1083.126904235787
     },
     "hot_paths": {
       "common_paths": [
         {
-          "stack": "storage_flush_cache",
-          "baseline_gas": 58068073,
-          "target_gas": 400068073,
-          "gas_change": 342000000,
-          "percent_change": 588.9639217061672
-        },
-        {
-          "stack": "user_returned",
-          "baseline_gas": 0,
-          "target_gas": 0,
-          "gas_change": 0,
-          "percent_change": 0.0
-        },
-        {
-          "stack": "write_result",
-          "baseline_gas": 41162,
-          "target_gas": 41162,
-          "gas_change": 0,
-          "percent_change": 0.0
-        },
-        {
           "stack": "storage_load_bytes32",
           "baseline_gas": 42136960,
-          "target_gas": 42136960,
-          "gas_change": 0,
-          "percent_change": 0.0
+          "target_gas": 2401056960,
+          "gas_change": 2358920000,
+          "percent_change": 5598.220659487538
         },
         {
           "stack": "native_keccak256",
           "baseline_gas": 365400,
-          "target_gas": 365400,
-          "gas_change": 0,
-          "percent_change": 0.0
+          "target_gas": 2436365400,
+          "gas_change": 2436000000,
+          "percent_change": 666666.6666666667
         },
         {
-          "stack": "read_args",
-          "baseline_gas": 13560,
-          "target_gas": 13560,
+          "stack": "msg_reentrant",
+          "baseline_gas": 8400,
+          "target_gas": 8400,
           "gas_change": 0,
           "percent_change": 0.0
         },
@@ -127,16 +106,9 @@
           "percent_change": 0.0
         },
         {
-          "stack": "msg_reentrant",
-          "baseline_gas": 8400,
-          "target_gas": 8400,
-          "gas_change": 0,
-          "percent_change": 0.0
-        },
-        {
-          "stack": "storage_cache_bytes32",
-          "baseline_gas": 36960,
-          "target_gas": 36960,
+          "stack": "user_returned",
+          "baseline_gas": 0,
+          "target_gas": 0,
           "gas_change": 0,
           "percent_change": 0.0
         },
@@ -144,6 +116,34 @@
           "stack": "user_entrypoint",
           "baseline_gas": 0,
           "target_gas": 0,
+          "gas_change": 0,
+          "percent_change": 0.0
+        },
+        {
+          "stack": "storage_flush_cache",
+          "baseline_gas": 400068073,
+          "target_gas": 400068073,
+          "gas_change": 0,
+          "percent_change": 0.0
+        },
+        {
+          "stack": "write_result",
+          "baseline_gas": 41162,
+          "target_gas": 41162,
+          "gas_change": 0,
+          "percent_change": 0.0
+        },
+        {
+          "stack": "read_args",
+          "baseline_gas": 13560,
+          "target_gas": 13560,
+          "gas_change": 0,
+          "percent_change": 0.0
+        },
+        {
+          "stack": "storage_cache_bytes32",
+          "baseline_gas": 36960,
+          "target_gas": 36960,
           "gas_change": 0,
           "percent_change": 0.0
         },
@@ -163,27 +163,39 @@
     {
       "metric": "gas.max_increase_percent",
       "threshold": 5.0,
-      "actual": 339.648427132328,
+      "actual": 1083.126904235787,
       "severity": "error"
     },
     {
-      "metric": "hot_paths.storage_flush_cache",
+      "metric": "hostio.max_total_calls_increase_percent",
       "threshold": 5.0,
-      "actual": 588.9639217061672,
+      "actual": 266666.6666666666,
+      "severity": "error"
+    },
+    {
+      "metric": "hot_paths.storage_load_bytes32",
+      "threshold": 5.0,
+      "actual": 5598.220659487538,
+      "severity": "warning"
+    },
+    {
+      "metric": "hot_paths.native_keccak256",
+      "threshold": 5.0,
+      "actual": 666666.6666666667,
       "severity": "warning"
     }
   ],
   "insights": [
     {
       "category": "Storage",
-      "description": "Significant 'Cold Tax': 100.0% of storage reads are cold, consuming 9.5% of total gas (1 read).",
-      "severity": "medium",
+      "description": "Significant 'Cold Tax': 100.0% of storage reads are cold, consuming 45.8% of total gas (1 read).",
+      "severity": "high",
       "tag": "storage_tax"
     }
   ],
   "summary": {
     "has_regressions": true,
-    "violation_count": 2,
+    "violation_count": 4,
     "status": "FAILED"
   }
 }
