@@ -1,0 +1,201 @@
+{
+  "version": "1.0.0",
+  "transaction_hash": "0xf9f25db9d8ce5c4bb056313f466eaeb2bbb6e31eade05f992ce678103168f22a",
+  "total_gas": 442692355,
+  "hostio_summary": {
+    "total_calls": 15,
+    "by_type": {
+      "read_args": 1,
+      "write_result": 1,
+      "msg_reentrant": 1,
+      "msg_value": 1,
+      "storage_flush_cache": 1,
+      "storage_cache": 2,
+      "storage_load": 2,
+      "native_keccak256": 3,
+      "other": 3
+    },
+    "total_hostio_gas": 442692355
+  },
+  "hot_paths": [
+    {
+      "stack": "storage_flush_cache",
+      "gas": 400068073,
+      "percentage": 90.37157937818917,
+      "source_hint": {
+        "file": "unknown",
+        "line": null,
+        "column": null,
+        "function": "0x0"
+      }
+    },
+    {
+      "stack": "storage_load_bytes32",
+      "gas": 42136960,
+      "percentage": 9.518339208726566,
+      "source_hint": {
+        "file": "unknown",
+        "line": null,
+        "column": null,
+        "function": "0x0"
+      }
+    },
+    {
+      "stack": "native_keccak256",
+      "gas": 365400,
+      "percentage": 0.08254039083191306,
+      "source_hint": {
+        "file": "unknown",
+        "line": null,
+        "column": null,
+        "function": "0x0"
+      }
+    },
+    {
+      "stack": "write_result",
+      "gas": 41162,
+      "percentage": 0.009298105001158198,
+      "source_hint": {
+        "file": "unknown",
+        "line": null,
+        "column": null,
+        "function": "0x0"
+      }
+    },
+    {
+      "stack": "storage_cache_bytes32",
+      "gas": 36960,
+      "percentage": 0.00834891309564178,
+      "source_hint": {
+        "file": "unknown",
+        "line": null,
+        "column": null,
+        "function": "0x0"
+      }
+    },
+    {
+      "stack": "read_args",
+      "gas": 13560,
+      "percentage": 0.0030630752591153288,
+      "source_hint": {
+        "file": "unknown",
+        "line": null,
+        "column": null,
+        "function": "0x0"
+      }
+    },
+    {
+      "stack": "msg_value",
+      "gas": 13440,
+      "percentage": 0.0030359683984151928,
+      "source_hint": {
+        "file": "unknown",
+        "line": null,
+        "column": null,
+        "function": "0x0"
+      }
+    },
+    {
+      "stack": "block_timestamp",
+      "gas": 8400,
+      "percentage": 0.0018974802490094955,
+      "source_hint": {
+        "file": "unknown",
+        "line": null,
+        "column": null,
+        "function": "0x0"
+      }
+    },
+    {
+      "stack": "msg_reentrant",
+      "gas": 8400,
+      "percentage": 0.0018974802490094955,
+      "source_hint": {
+        "file": "unknown",
+        "line": null,
+        "column": null,
+        "function": "0x0"
+      }
+    },
+    {
+      "stack": "user_entrypoint",
+      "gas": 0,
+      "percentage": 0.0,
+      "source_hint": {
+        "file": "unknown",
+        "line": null,
+        "column": null,
+        "function": "0x0"
+      }
+    },
+    {
+      "stack": "user_returned",
+      "gas": 0,
+      "percentage": 0.0,
+      "source_hint": {
+        "file": "unknown",
+        "line": null,
+        "column": null,
+        "function": "0x0"
+      }
+    }
+  ],
+  "all_stacks": [
+    {
+      "stack": "storage_flush_cache",
+      "weight": 400068073,
+      "last_pc": 0
+    },
+    {
+      "stack": "storage_load_bytes32",
+      "weight": 42136960,
+      "last_pc": 0
+    },
+    {
+      "stack": "native_keccak256",
+      "weight": 365400,
+      "last_pc": 0
+    },
+    {
+      "stack": "write_result",
+      "weight": 41162,
+      "last_pc": 0
+    },
+    {
+      "stack": "storage_cache_bytes32",
+      "weight": 36960,
+      "last_pc": 0
+    },
+    {
+      "stack": "read_args",
+      "weight": 13560,
+      "last_pc": 0
+    },
+    {
+      "stack": "msg_value",
+      "weight": 13440,
+      "last_pc": 0
+    },
+    {
+      "stack": "block_timestamp",
+      "weight": 8400,
+      "last_pc": 0
+    },
+    {
+      "stack": "msg_reentrant",
+      "weight": 8400,
+      "last_pc": 0
+    },
+    {
+      "stack": "user_entrypoint",
+      "weight": 0,
+      "last_pc": 0
+    },
+    {
+      "stack": "user_returned",
+      "weight": 0,
+      "last_pc": 0
+    }
+  ],
+  "generated_at": "2026-02-27T21:12:41.795556+00:00"
+}
