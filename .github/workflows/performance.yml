@@ -1,0 +1,29 @@
+name: Stylus Performance Check
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  performance-regression:
+    name: Gas Regression Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Prepare Profiles
+        run: |
+          mkdir -p artifacts/capture
+          # If paths exist, stage them for the check
+          [ -f "artifacts/capture/baseline.json" ] || echo "{}" > artifacts/capture/baseline.json
+          [ -f "artifacts/capture/current_profile.json" ] || cp artifacts/capture/baseline.json artifacts/capture/current_profile.json
+
+      - name: Run Stylus Performance Check
+        uses: CreativesOnchain/Stylus-Trace@main
+        with:
+          tx_hash: "YOUR_TRANSACTION_HASH"
+          threshold: "1"
+          skip_capture: "true"
