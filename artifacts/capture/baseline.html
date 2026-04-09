@@ -6,11 +6,59 @@
     <title>Stylus Trace Studio - Cyber Diagnostics</title>
     <style>:root {
     --bg-color: #020202;
+    --panel-bg: #050505;
     --green-main: #00ff41;
     --green-dark: #008f11;
+    --green-dim: #00cc33;
     --green-faint: rgba(0, 255, 65, 0.1);
+    --text-bright: #ffffff;
+    --text-dim: rgba(255, 255, 255, 0.6);
     --border-style: 2px solid var(--green-dark);
+    --bar-track: #111;
 }
+
+/* Light theme overrides */
+body[data-theme="light"] {
+    --bg-color: #f5f5f0;
+    --panel-bg: #e8e8e0;
+    --green-main: #1a5c2a;
+    --green-dark: #2d7a3a;
+    --green-dim: #3d8a4a;
+    --green-faint: rgba(26, 92, 42, 0.1);
+    --text-bright: #0a2a12;
+    --text-dim: rgba(10, 42, 18, 0.7);
+    --border-style: 2px solid var(--green-dark);
+    --bar-track: #dcdccf;
+    
+    color: var(--green-main);
+    background-color: var(--bg-color);
+    text-shadow: none;
+}
+
+body[data-theme="light"] .crt-overlay { display: none; }
+
+body[data-theme="light"] .glitch::before,
+body[data-theme="light"] .glitch::after { display: none; }
+
+body[data-theme="light"] #viewer-container {
+    background: var(--bg-color);
+}
+
+body[data-theme="light"] .panel {
+    background: var(--panel-bg);
+    border-color: var(--green-dark);
+}
+
+body[data-theme="light"] .panel h2 { 
+    text-shadow: none; 
+}
+
+body[data-theme="light"] #theme-toggle { color: #c06000; border-color: #c06000; }
+
+/* SVG Theme Overrides */
+body[data-theme="light"] svg text { fill: var(--text-bright) !important; }
+body[data-theme="light"] svg rect { stroke: var(--panel-bg) !important; }
+body[data-theme="light"] .flamegraph-empty { color: var(--green-dark); }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -48,7 +96,7 @@ body {
     justify-content: space-between;
     padding: 10px 24px;
     border-bottom: var(--border-style);
-    background: #050505;
+    background: var(--panel-bg);
 }
 
 .logo h1, .glitch {
@@ -97,8 +145,8 @@ body {
     text-shadow: 0 0 4px var(--green-main);
 }
 .controls button:hover {
-    color: #fff;
-    text-shadow: 0 0 8px #fff;
+    color: var(--text-bright);
+    text-shadow: 0 0 8px var(--text-bright);
 }
 
 main { display: flex; flex: 1; overflow: hidden; }
@@ -106,7 +154,7 @@ main { display: flex; flex: 1; overflow: hidden; }
 #sidebar {
     width: 350px;
     border-right: var(--border-style);
-    background: #050505;
+    background: var(--panel-bg);
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -122,7 +170,7 @@ main { display: flex; flex: 1; overflow: hidden; }
 .panel h2 {
     font-size: 22px;
     margin-bottom: 15px;
-    color: #fff;
+    color: var(--text-bright);
 }
 
 .tx-list {
@@ -135,18 +183,73 @@ main { display: flex; flex: 1; overflow: hidden; }
     font-size: 16px;
     background: var(--green-faint);
     border-left: 3px solid var(--green-dark);
-    padding: 8px;
+    padding: 10px;
     word-break: break-all;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.4;
 }
-.tx-item label { color: #fff; opacity: 0.6; margin-right: 5px; }
-.tx-item.target { border-left-color: var(--green-main); }
+.tx-item label { 
+    display: block;
+    color: var(--text-dim); 
+    opacity: 1; 
+    margin-bottom: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+.tx-item span { color: var(--green-main); }
+.tx-item.target { border-left-color: var(--green-main); margin-top: 10px; }
 
 .stats-column { display: flex; flex-direction: column; gap: 15px; }
 .stat-row {
     border-bottom: 1px dashed var(--green-dark);
     padding-bottom: 8px;
 }
-.stat-row .label { font-size: 16px; color: #fff; opacity: 0.8; margin-bottom: 4px; }
+
+#drop-zone-container {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-color);
+    z-index: 50;
+    padding: 20px;
+}
+
+.drop-zone {
+    width: 600px;
+    height: 400px;
+    border: 3px dashed var(--green-dark);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    background: repeating-linear-gradient(45deg, var(--bg-color), var(--bg-color) 10px, var(--panel-bg) 10px, var(--panel-bg) 20px);
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
+}
+
+.drop-zone:hover, .drop-zone.dragover {
+    border-color: var(--green-main);
+    background: var(--green-faint);
+    box-shadow: 0 0 40px rgba(0, 255, 65, 0.3);
+}
+
+.drop-zone p {
+    margin-top: 20px;
+    font-size: 24px;
+}
+
+.drop-zone .subtext {
+    font-size: 18px;
+    opacity: 0.7;
+    margin-top: 10px;
+}
+.stat-row .label { font-size: 16px; color: var(--text-bright); opacity: 0.8; margin-bottom: 4px; }
 .stat-row .value { font-size: 20px; color: var(--green-main); }
 .stat-row .delta { 
     margin-left: 10px; 
@@ -169,16 +272,63 @@ main { display: flex; flex: 1; overflow: hidden; }
 .hot-path-item.highlight { background: var(--green-main); color: #000; text-shadow: none; }
 .stack-name { display: block; word-break: break-all; font-size: 16px; margin-top: 4px; }
 
+/* Category Stats Panel */
+#category-stats-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+
+.cat-stat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+}
+
+.cat-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: inline-block;
+}
+
+.cat-name {
+    flex: 1;
+    color: var(--green-dim);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cat-bar-track {
+    flex: 1.5;
+    height: 6px;
+    background: var(--bar-track);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.cat-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.4s ease;
+}
+
+.cat-pct {
+    color: var(--green-main);
+    min-width: 38px;
+    text-align: right;
+    font-size: 14px;
+}
+
 #viewer-container {
     flex: 1;
     display: flex;
     position: relative;
     background: repeating-linear-gradient(
         45deg,
-        #020202,
-        #020202 10px,
-        #050505 10px,
-        #050505 20px
+        var(--bg-color),
+        var(--bg-color) 10px,
+        var(--panel-bg) 10px,
+        var(--panel-bg) 20px
     );
 }
 .chart-canvas {
@@ -188,22 +338,91 @@ main { display: flex; flex: 1; overflow: hidden; }
 .chart-canvas canvas { width: 100%; height: 100%; outline: none; }
 .chart-canvas .label {
     position: absolute; top: 15px; left: 15px;
-    background: #000; padding: 5px 10px; border: 1px solid var(--green-main);
+    background: var(--panel-bg); padding: 5px 10px; border: 1px solid var(--green-main);
+    color: var(--text-bright);
     pointer-events: none;
 }
 
 #tooltip {
     position: absolute; display: none; pointer-events: none;
-    background: #000; border: 2px solid var(--green-main);
+    background: var(--panel-bg); border: 2px solid var(--green-main);
+    color: var(--text-bright);
     padding: 15px; z-index: 1000;
     box-shadow: 5px 5px 0 var(--green-dark);
 }
 
 .terminal-footer {
-    padding: 5px 24px; border-top: var(--border-style); background: #050505;
+    padding: 5px 24px; border-top: var(--border-style); background: var(--panel-bg);
 }
 
 .hidden { display: none !important; }
+
+/* View Tab Bar */
+#view-tabs {
+    display: flex;
+    gap: 5px;
+    padding: 6px 24px;
+    background: var(--panel-bg);
+    border-bottom: var(--border-style);
+}
+
+.tab-btn {
+    background: transparent;
+    border: 1px solid var(--green-dark);
+    color: var(--green-dark);
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+    padding: 3px 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 1px;
+}
+
+.tab-btn:hover {
+    border-color: var(--green-main);
+    color: var(--green-main);
+    text-shadow: 0 0 6px var(--green-main);
+}
+
+.tab-btn.active {
+    border-color: var(--green-main);
+    color: var(--green-main);
+    text-shadow: 0 0 8px var(--green-main);
+    box-shadow: inset 0 0 8px rgba(0, 255, 65, 0.15);
+}
+
+/* Flamegraph View */
+#flamegraph-view {
+    flex: 1;
+    overflow: auto;
+    background: var(--bg-color);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+#flamegraph-container {
+    flex: 1;
+    overflow: auto;
+    padding: 10px;
+}
+
+#flamegraph-container svg {
+    width: 100%;
+    height: auto;
+    cursor: crosshair;
+}
+
+.flamegraph-empty {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--green-dark);
+    font-size: 20px;
+    text-align: center;
+    pointer-events: none;
+}
 
 /* Responsive adjustments */
 @media (max-width: 900px) {
@@ -217,6 +436,14 @@ main { display: flex; flex: 1; overflow: hidden; }
 </head>
 <body>
     <div class="crt-overlay"></div>
+    <div id="drop-zone-container" class="hidden">
+        <div class="drop-zone">
+            <div class="glitch" data-text="AWAITING // TRACE_DATA">AWAITING // TRACE_DATA</div>
+            <p>DRAG &amp; DROP REPORT.JSON</p>
+            <p class="subtext">Drop 1 file for Profiling | Drop 2 files for Diffing</p>
+            <input type="file" id="file-input" class="hidden" accept=".json" multiple>
+        </div>
+    </div>
     <div id="app">
         <header class="terminal-header">
             <div class="logo">
@@ -232,8 +459,15 @@ main { display: flex; flex: 1; overflow: hidden; }
                 <button id="zoom-in">[ + ]</button>
                 <button id="zoom-out">[ - ]</button>
                 <button id="reset-view">[ RESET ]</button>
+                <button id="theme-toggle">[ LIGHT ]</button>
             </div>
         </header>
+
+        <!-- View Tab Switcher -->
+        <div id="view-tabs">
+            <button id="tab-pie" class="tab-btn active">[ PIE_CHART ]</button>
+            <button id="tab-flame" class="tab-btn">[ FLAMEGRAPH ]</button>
+        </div>
 
         <main>
             <aside id="sidebar">
@@ -265,36 +499,46 @@ main { display: flex; flex: 1; overflow: hidden; }
                         <!-- Populated by JS -->
                     </ul>
                 </section>
+
+                <section id="category-stats" class="panel">
+                    <h2>:: GAS_BY_CATEGORY ::</h2>
+                    <ul id="category-stats-list">
+                        <!-- Populated by JS -->
+                    </ul>
+                </section>
             </aside>
 
+            <!-- Pie Chart View -->
             <div id="viewer-container">
                 <div id="chart-a" class="chart-canvas">
                     <canvas id="canvas-a"></canvas>
-                    <div class="label">> BASELINE_DATA</div>
+                    <div class="label">&gt; BASELINE_DATA</div>
                 </div>
                 <div id="chart-b" class="chart-canvas hidden">
                     <canvas id="canvas-b"></canvas>
-                    <div class="label">> TARGET_DATA</div>
+                    <div class="label">&gt; TARGET_DATA</div>
                 </div>
                 <div id="tooltip"></div>
+            </div>
+
+            <!-- Flamegraph View -->
+            <div id="flamegraph-view" class="hidden">
+                <div id="flamegraph-container"></div>
+                <div id="flamegraph-empty" class="flamegraph-empty hidden">&gt; NO_FLAMEGRAPH_DATA // Profile with --output-svg flag to generate one</div>
             </div>
         </main>
 
         <footer class="terminal-footer">
-            <div id="status-line">> SYSTEM: ONLINE | PROFILE: <span id="profile-name">none</span></div>
+            <div id="status-line">&gt; SYSTEM: ONLINE | PROFILE: <span id="profile-name">none</span></div>
         </footer>
     </div>
 
-    <!-- Data Injection Point -->
-    <script id="profile-data" type="application/json">
-        {"version":"1.0.0","transaction_hash":"0x4e4e4857c4b31a20f2d638eed911bc32398e9fd2a2d11cbacb991d26f2dece25","total_gas":442692355,"hostio_summary":{"total_calls":15,"by_type":{"storage_flush_cache":1,"other":3,"msg_reentrant":1,"msg_value":1,"native_keccak256":3,"storage_cache":2,"read_args":1,"storage_load":2,"write_result":1},"total_hostio_gas":442692355},"hot_paths":[{"stack":"storage_flush_cache","gas":400068073,"percentage":90.37157937818915,"source_hint":{"file":"unknown","line":null,"column":null,"function":"0x0"}},{"stack":"storage_load_bytes32","gas":42136960,"percentage":9.518339208726566,"source_hint":{"file":"unknown","line":null,"column":null,"function":"0x0"}},{"stack":"native_keccak256","gas":365400,"percentage":0.08254039083191306,"source_hint":{"file":"unknown","line":null,"column":null,"function":"0x0"}},{"stack":"write_result","gas":41162,"percentage":0.009298105001158198,"source_hint":{"file":"unknown","line":null,"column":null,"function":"0x0"}},{"stack":"storage_cache_bytes32","gas":36960,"percentage":0.00834891309564178,"source_hint":{"file":"unknown","line":null,"column":null,"function":"0x0"}},{"stack":"read_args","gas":13560,"percentage":0.0030630752591153288,"source_hint":{"file":"unknown","line":null,"column":null,"function":"0x0"}},{"stack":"msg_value","gas":13440,"percentage":0.0030359683984151928,"source_hint":{"file":"unknown","line":null,"column":null,"function":"0x0"}},{"stack":"msg_reentrant","gas":8400,"percentage":0.0018974802490094955,"source_hint":{"file":"unknown","line":null,"column":null,"function":"0x0"}},{"stack":"block_timestamp","gas":8400,"percentage":0.0018974802490094955,"source_hint":{"file":"unknown","line":null,"column":null,"function":"0x0"}},{"stack":"user_returned","gas":0,"percentage":0.0,"source_hint":{"file":"unknown","line":null,"column":null,"function":"0x0"}},{"stack":"user_entrypoint","gas":0,"percentage":0.0,"source_hint":{"file":"unknown","line":null,"column":null,"function":"0x0"}}],"all_stacks":[{"stack":"storage_flush_cache","weight":400068073,"last_pc":0},{"stack":"storage_load_bytes32","weight":42136960,"last_pc":0},{"stack":"native_keccak256","weight":365400,"last_pc":0},{"stack":"write_result","weight":41162,"last_pc":0},{"stack":"storage_cache_bytes32","weight":36960,"last_pc":0},{"stack":"read_args","weight":13560,"last_pc":0},{"stack":"msg_value","weight":13440,"last_pc":0},{"stack":"msg_reentrant","weight":8400,"last_pc":0},{"stack":"block_timestamp","weight":8400,"last_pc":0},{"stack":"user_returned","weight":0,"last_pc":0},{"stack":"user_entrypoint","weight":0,"last_pc":0}],"generated_at":"2026-02-27T21:37:30.690809+00:00"}
-    </script>
-    <script id="profile-b-data" type="application/json">
-        /* PROFILE_B_DATA_JSON */
-    </script>
-    <script id="diff-data" type="application/json">
-        /* DIFF_DATA_JSON */
-    </script>
+    <!-- Data Injection Point (base64-encoded JSON for safe injection) -->
+    <script id="profile-data" type="application/json">eyJ2ZXJzaW9uIjoiMS4wLjAiLCJ0cmFuc2FjdGlvbl9oYXNoIjoiMHg0ODJjMGRmZDcwMTFiZTE5OTVhZDY3OGU5MGU1NzY0ZmU3NzMxNzYyZmVmMjcyZWU0YTYxNjMxMTkxNDZiOWIwIiwidG90YWxfZ2FzIjo0NDI2OTIzNTUsImhvc3Rpb19zdW1tYXJ5Ijp7InRvdGFsX2NhbGxzIjoxNSwiYnlfdHlwZSI6eyJyZWFkX2FyZ3MiOjEsIm5hdGl2ZV9rZWNjYWsyNTYiOjMsIm1zZ192YWx1ZSI6MSwib3RoZXIiOjMsInN0b3JhZ2VfbG9hZCI6MiwibXNnX3JlZW50cmFudCI6MSwid3JpdGVfcmVzdWx0IjoxLCJzdG9yYWdlX2ZsdXNoX2NhY2hlIjoxLCJzdG9yYWdlX2NhY2hlIjoyfSwidG90YWxfaG9zdGlvX2dhcyI6NDQyNjkyMzU1fSwiaG90X3BhdGhzIjpbeyJzdGFjayI6InN0b3JhZ2VfZmx1c2hfY2FjaGUiLCJnYXMiOjQwMDA2ODA3MywicGVyY2VudGFnZSI6OTAuMzcxNTc5Mzc4MTg5MTcsImNhdGVnb3J5IjoiU3RvcmFnZUV4cGVuc2l2ZSIsInNvdXJjZV9oaW50Ijp7ImZpbGUiOiJ1bmtub3duIiwibGluZSI6bnVsbCwiY29sdW1uIjpudWxsLCJmdW5jdGlvbiI6IjB4MCJ9fSx7InN0YWNrIjoic3RvcmFnZV9sb2FkX2J5dGVzMzIiLCJnYXMiOjQyMTM2OTYwLCJwZXJjZW50YWdlIjo5LjUxODMzOTIwODcyNjU2NiwiY2F0ZWdvcnkiOiJTdG9yYWdlTm9ybWFsIiwic291cmNlX2hpbnQiOnsiZmlsZSI6InVua25vd24iLCJsaW5lIjpudWxsLCJjb2x1bW4iOm51bGwsImZ1bmN0aW9uIjoiMHgwIn19LHsic3RhY2siOiJuYXRpdmVfa2VjY2FrMjU2IiwiZ2FzIjozNjU0MDAsInBlcmNlbnRhZ2UiOjAuMDgyNTQwMzkwODMxOTEzMDYsImNhdGVnb3J5IjoiQ3J5cHRvIiwic291cmNlX2hpbnQiOnsiZmlsZSI6InVua25vd24iLCJsaW5lIjpudWxsLCJjb2x1bW4iOm51bGwsImZ1bmN0aW9uIjoiMHgwIn19LHsic3RhY2siOiJ3cml0ZV9yZXN1bHQiLCJnYXMiOjQxMTYyLCJwZXJjZW50YWdlIjowLjAwOTI5ODEwNTAwMTE1ODE5OCwiY2F0ZWdvcnkiOiJNZW1vcnkiLCJzb3VyY2VfaGludCI6eyJmaWxlIjoidW5rbm93biIsImxpbmUiOm51bGwsImNvbHVtbiI6bnVsbCwiZnVuY3Rpb24iOiIweDAifX0seyJzdGFjayI6InN0b3JhZ2VfY2FjaGVfYnl0ZXMzMiIsImdhcyI6MzY5NjAsInBlcmNlbnRhZ2UiOjAuMDA4MzQ4OTEzMDk1NjQxNzgsImNhdGVnb3J5IjoiU3RvcmFnZU5vcm1hbCIsInNvdXJjZV9oaW50Ijp7ImZpbGUiOiJ1bmtub3duIiwibGluZSI6bnVsbCwiY29sdW1uIjpudWxsLCJmdW5jdGlvbiI6IjB4MCJ9fSx7InN0YWNrIjoicmVhZF9hcmdzIiwiZ2FzIjoxMzU2MCwicGVyY2VudGFnZSI6MC4wMDMwNjMwNzUyNTkxMTUzMjg4LCJjYXRlZ29yeSI6Ik1lbW9yeSIsInNvdXJjZV9oaW50Ijp7ImZpbGUiOiJ1bmtub3duIiwibGluZSI6bnVsbCwiY29sdW1uIjpudWxsLCJmdW5jdGlvbiI6IjB4MCJ9fSx7InN0YWNrIjoibXNnX3ZhbHVlIiwiZ2FzIjoxMzQ0MCwicGVyY2VudGFnZSI6MC4wMDMwMzU5NjgzOTg0MTUxOTI4LCJjYXRlZ29yeSI6IlN5c3RlbSIsInNvdXJjZV9oaW50Ijp7ImZpbGUiOiJ1bmtub3duIiwibGluZSI6bnVsbCwiY29sdW1uIjpudWxsLCJmdW5jdGlvbiI6IjB4MCJ9fSx7InN0YWNrIjoibXNnX3JlZW50cmFudCIsImdhcyI6ODQwMCwicGVyY2VudGFnZSI6MC4wMDE4OTc0ODAyNDkwMDk0OTU1LCJjYXRlZ29yeSI6IlN5c3RlbSIsInNvdXJjZV9oaW50Ijp7ImZpbGUiOiJ1bmtub3duIiwibGluZSI6bnVsbCwiY29sdW1uIjpudWxsLCJmdW5jdGlvbiI6IjB4MCJ9fSx7InN0YWNrIjoiYmxvY2tfdGltZXN0YW1wIiwiZ2FzIjo4NDAwLCJwZXJjZW50YWdlIjowLjAwMTg5NzQ4MDI0OTAwOTQ5NTUsImNhdGVnb3J5IjoiU3lzdGVtIiwic291cmNlX2hpbnQiOnsiZmlsZSI6InVua25vd24iLCJsaW5lIjpudWxsLCJjb2x1bW4iOm51bGwsImZ1bmN0aW9uIjoiMHgwIn19LHsic3RhY2siOiJ1c2VyX3JldHVybmVkIiwiZ2FzIjowLCJwZXJjZW50YWdlIjowLjAsImNhdGVnb3J5IjoiVXNlckNvZGUiLCJzb3VyY2VfaGludCI6eyJmaWxlIjoidW5rbm93biIsImxpbmUiOm51bGwsImNvbHVtbiI6bnVsbCwiZnVuY3Rpb24iOiIweDAifX0seyJzdGFjayI6InVzZXJfZW50cnlwb2ludCIsImdhcyI6MCwicGVyY2VudGFnZSI6MC4wLCJjYXRlZ29yeSI6IlVzZXJDb2RlIiwic291cmNlX2hpbnQiOnsiZmlsZSI6InVua25vd24iLCJsaW5lIjpudWxsLCJjb2x1bW4iOm51bGwsImZ1bmN0aW9uIjoiMHgwIn19XSwiYWxsX3N0YWNrcyI6W3sic3RhY2siOiJzdG9yYWdlX2ZsdXNoX2NhY2hlIiwid2VpZ2h0Ijo0MDAwNjgwNzMsImxhc3RfcGMiOjB9LHsic3RhY2siOiJzdG9yYWdlX2xvYWRfYnl0ZXMzMiIsIndlaWdodCI6NDIxMzY5NjAsImxhc3RfcGMiOjB9LHsic3RhY2siOiJuYXRpdmVfa2VjY2FrMjU2Iiwid2VpZ2h0IjozNjU0MDAsImxhc3RfcGMiOjB9LHsic3RhY2siOiJ3cml0ZV9yZXN1bHQiLCJ3ZWlnaHQiOjQxMTYyLCJsYXN0X3BjIjowfSx7InN0YWNrIjoic3RvcmFnZV9jYWNoZV9ieXRlczMyIiwid2VpZ2h0IjozNjk2MCwibGFzdF9wYyI6MH0seyJzdGFjayI6InJlYWRfYXJncyIsIndlaWdodCI6MTM1NjAsImxhc3RfcGMiOjB9LHsic3RhY2siOiJtc2dfdmFsdWUiLCJ3ZWlnaHQiOjEzNDQwLCJsYXN0X3BjIjowfSx7InN0YWNrIjoibXNnX3JlZW50cmFudCIsIndlaWdodCI6ODQwMCwibGFzdF9wYyI6MH0seyJzdGFjayI6ImJsb2NrX3RpbWVzdGFtcCIsIndlaWdodCI6ODQwMCwibGFzdF9wYyI6MH0seyJzdGFjayI6InVzZXJfcmV0dXJuZWQiLCJ3ZWlnaHQiOjAsImxhc3RfcGMiOjB9LHsic3RhY2siOiJ1c2VyX2VudHJ5cG9pbnQiLCJ3ZWlnaHQiOjAsImxhc3RfcGMiOjB9XSwiZ2VuZXJhdGVkX2F0IjoiMjAyNi0wNC0wOVQwNDowMToxOS45NTI0MzcrMDA6MDAifQ==</script>
+    <script id="profile-b-data" type="application/json"></script>
+    <script id="diff-data" type="application/json"></script>
+    <!-- Flamegraph SVG (injected as raw text) -->
+    <script id="flamegraph-svg-data" type="text/plain"><svg xmlns="http://www.w3.org/2000/svg" width="1200" height="120" viewBox="0 0 1200 120"><style>.func { font: 12px sans-serif; } .func:hover { stroke: black; stroke-width: 1; cursor: pointer; opacity: 0.9; }</style><text x="600" y="20" font-size="16" text-anchor="middle" font-weight="bold">Stylus Transaction Profile</text><rect x="0.00" y="50.00" width="1200.00" height="20" fill="rgb(75, 0, 130)" stroke="white" stroke-width="0.5" class="func"><title>root: 442692355 ink / 44269 gas</title></rect><text x="0.00" y="50.00" dx="4" dy="14" font-size="12" fill="white" pointer-events="none">root</text><rect x="0.00" y="30.00" width="1084.46" height="20" fill="rgb(220, 20, 60)" stroke="white" stroke-width="0.5" class="func"><title>storage_flush_cache: 400068073 ink / 40006 gas</title></rect><text x="0.00" y="30.00" dx="4" dy="14" font-size="12" fill="white" pointer-events="none">storage_flush_cache</text><rect x="1084.46" y="30.00" width="114.22" height="20" fill="rgb(255, 140, 0)" stroke="white" stroke-width="0.5" class="func"><title>storage_load_bytes32: 42136960 ink / 4213 gas</title></rect><text x="1084.46" y="30.00" dx="4" dy="14" font-size="12" fill="white" pointer-events="none">storage_load_...</text><rect x="1198.68" y="30.00" width="0.99" height="20" fill="rgb(138, 43, 226)" stroke="white" stroke-width="0.5" class="func"><title>native_keccak256: 365400 ink / 36 gas</title></rect><text x="10" y="90" font-size="14" font-weight="bold">Legend:</text><rect x="80" y="78" width="15" height="15" fill="rgb(220, 20, 60)" rx="2"/><text x="100" y="90" font-size="12">Storage (Ex)</text><rect x="200" y="78" width="15" height="15" fill="rgb(255, 140, 0)" rx="2"/><text x="220" y="90" font-size="12">Storage</text><rect x="320" y="78" width="15" height="15" fill="rgb(138, 43, 226)" rx="2"/><text x="340" y="90" font-size="12">Crypto</text><rect x="440" y="78" width="15" height="15" fill="rgb(34, 139, 34)" rx="2"/><text x="460" y="90" font-size="12">Memory</text><rect x="560" y="78" width="15" height="15" fill="rgb(70, 130, 180)" rx="2"/><text x="580" y="90" font-size="12">Call/Msg</text><rect x="680" y="78" width="15" height="15" fill="rgb(100, 149, 237)" rx="2"/><text x="700" y="90" font-size="12">System</text></svg></script>
 
     <script>/**
  * Stylus-Trace Studio - Pie Chart Viewer Logic (Retro Tech Theme)
@@ -313,6 +557,11 @@ const CONFIG = {
         Other: '#002209'
     }
 };
+
+/** Helper to get CSS variables for Canvas rendering */
+function getThemeColor(varName) {
+    return getComputedStyle(document.body).getPropertyValue(varName).trim();
+}
 
 class PieChart {
     constructor(canvasId, data, isDiff = false) {
@@ -347,7 +596,9 @@ class PieChart {
 
         this.data.hot_paths.slice(0, 15).forEach(path => {
             let name = path.stack.split(';').pop();
-            const category = this.getCategory(name);
+            // Prefer server-provided category; fall back to legacy heuristic
+            // for profiles generated before this feature was added.
+            const category = path.category || this.getCategory(name);
             this.slices.push({
                 name: name,
                 fullStack: path.stack,
@@ -458,7 +709,6 @@ class PieChart {
 
         if (hit !== this.hoveredSlice) {
             this.hoveredSlice = hit;
-            this.updateTooltip(screenX, screenY);
             this.render();
             document.querySelectorAll('.hot-path-item').forEach(el => el.classList.remove('highlight'));
             if (hit && hit.name !== 'Other') {
@@ -466,17 +716,18 @@ class PieChart {
                 if (el) el.classList.add('highlight');
             }
         }
+        this.updateTooltip(screenX, screenY);
     }
 
     updateTooltip(x, y) {
         const tooltip = document.getElementById('tooltip');
         if (this.hoveredSlice) {
             tooltip.style.display = 'block';
-            // tooltip.style.left = (x + 0) + 'px';
-            // tooltip.style.top = (y + 0) + 'px';
+            tooltip.style.left = (x + 15) + 'px';
+            tooltip.style.top = (y + 15) + 'px';
             tooltip.innerHTML = `
-                <div style="font-size: 24px; color: #fff; text-shadow: none;">>${this.hoveredSlice.name}</div>
-                <div style="margin-top: 10px;">
+                <div style="font-size: 24px; color: var(--text-bright); text-shadow: none;">>${this.hoveredSlice.name}</div>
+                <div style="margin-top: 10px; color: var(--green-main);">
                     <div>GAS_USED: ${this.hoveredSlice.value.toLocaleString()}</div>
                     <div>SHARE:    ${this.hoveredSlice.percentage.toFixed(2)}%</div>
                 </div>
@@ -515,10 +766,10 @@ class PieChart {
                 isHighlighted = (sliceName === query) || (query.length >= 3 && sliceName.startsWith(query));
             }
 
-            if (isHighlighted) this.ctx.fillStyle = '#ffffff';
+            if (isHighlighted) this.ctx.fillStyle = getThemeColor('--text-bright') || '#ffffff';
 
             this.ctx.fill();
-            this.ctx.strokeStyle = '#000000';
+            this.ctx.strokeStyle = getThemeColor('--bg-color') || '#000000';
             this.ctx.lineWidth = 2 / this.zoom;
             this.ctx.stroke();
 
@@ -526,7 +777,7 @@ class PieChart {
             if (slice.percentage > 3 && this.zoom > 0.5) {
                 let textX = Math.cos(midAngle) * (radius * 0.7);
                 let textY = Math.sin(midAngle) * (radius * 0.7);
-                this.ctx.fillStyle = '#000';
+                this.ctx.fillStyle = '#000'; // Keep black for readability on colored slices
                 this.ctx.font = `${Math.max(12, 16 / this.zoom)}px 'VT323'`;
                 this.ctx.textAlign = 'center';
                 this.ctx.textBaseline = 'middle';
@@ -536,20 +787,23 @@ class PieChart {
 
         this.ctx.restore();
 
+        const greenMain = getThemeColor('--green-main');
         this.ctx.beginPath();
         this.ctx.arc(width / 2, height / 2, 5, 0, Math.PI * 2);
-        this.ctx.fillStyle = '#00ff41';
+        this.ctx.fillStyle = greenMain;
         this.ctx.fill();
         this.ctx.beginPath();
         this.ctx.moveTo(width / 2 - 20, height / 2);
         this.ctx.lineTo(width / 2 + 20, height / 2);
         this.ctx.moveTo(width / 2, height / 2 - 20);
         this.ctx.lineTo(width / 2, height / 2 + 20);
-        this.ctx.strokeStyle = '#00ff41';
+        this.ctx.strokeStyle = greenMain;
         this.ctx.lineWidth = 1;
         this.ctx.stroke();
     }
 
+    /** @deprecated Use `path.category` from the JSON profile instead.
+     * Kept as a fallback for old profiles that lack the `category` field. */
     getCategory(name) {
         const n = name.toLowerCase();
         if (n === 'root') return 'Root';
@@ -576,30 +830,219 @@ window.app = {
 
 document.addEventListener('DOMContentLoaded', () => {
     loadData();
-    setupControls();
+
+    // Check if we correctly loaded data statically
     if (window.app.profileA) {
-        updateUI();
+        initViewer();
+    } else {
+        // No static data, show the drag-and-drop zone
+        const appContainer = document.getElementById('app');
+        const dropZoneContainer = document.getElementById('drop-zone-container');
+        if (appContainer && dropZoneContainer) {
+            appContainer.classList.add('hidden');
+            dropZoneContainer.classList.remove('hidden');
+            setupDropZone();
+        }
+    }
+});
+
+function initViewer() {
+    const dropZoneContainer = document.getElementById('drop-zone-container');
+    const appContainer = document.getElementById('app');
+    if (dropZoneContainer && appContainer) {
+        dropZoneContainer.classList.add('hidden');
+        appContainer.classList.remove('hidden');
+    }
+
+    setupControls();
+    setupTabs();
+    setupThemeToggle();
+    updateUI();
+    if (window.app.profileA) {
         window.app.chartA = new PieChart('canvas-a', window.app.profileA);
     }
     if (window.app.profileB) {
         document.getElementById('chart-b').classList.remove('hidden');
         window.app.chartB = new PieChart('canvas-b', window.app.profileB, true);
     }
-});
+    renderFlamegraph();
+}
+
+function setupThemeToggle() {
+    const btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+
+    // Restore persisted preference
+    const saved = localStorage.getItem('stylus-trace-theme');
+    if (saved === 'light') {
+        document.body.setAttribute('data-theme', 'light');
+        btn.textContent = '[ DARK ]';
+    }
+
+    btn.addEventListener('click', () => {
+        const isLight = document.body.getAttribute('data-theme') === 'light';
+        if (isLight) {
+            document.body.removeAttribute('data-theme');
+            btn.textContent = '[ LIGHT ]';
+            localStorage.setItem('stylus-trace-theme', 'dark');
+        } else {
+            document.body.setAttribute('data-theme', 'light');
+            btn.textContent = '[ DARK ]';
+            localStorage.setItem('stylus-trace-theme', 'light');
+        }
+        // Re-render charts — canvas doesn't pick up CSS variable changes automatically
+        if (window.app.chartA) window.app.chartA.render();
+        if (window.app.chartB) window.app.chartB.render();
+    });
+}
+
+function setupDropZone() {
+    const dropZoneCtn = document.getElementById('drop-zone-container');
+    const dropZone = dropZoneCtn.querySelector('.drop-zone');
+    const fileInput = document.getElementById('file-input');
+
+    dropZone.addEventListener('click', () => fileInput.click());
+    
+    dropZone.addEventListener('dragover', (e) => { 
+        e.preventDefault(); 
+        dropZone.classList.add('dragover'); 
+    });
+    
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('dragover');
+    });
+    
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+        handleFiles(e.dataTransfer.files);
+    });
+    
+    fileInput.addEventListener('change', (e) => {
+        handleFiles(e.target.files);
+    });
+}
+
+function handleFiles(files) {
+    if (files.length === 0) return;
+    
+    const fileA = files[0];
+    const fileB = files.length > 1 ? files[1] : null;
+
+    const readJson = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    resolve(JSON.parse(e.target.result));
+                } catch (err) {
+                    reject(err);
+                }
+            };
+            reader.onerror = reject;
+            reader.readAsText(file);
+        });
+    };
+
+    if (fileB) {
+        Promise.all([readJson(fileA), readJson(fileB)]).then(results => {
+            window.app.profileA = results[0];
+            window.app.profileB = results[1];
+            initViewer();
+        }).catch(err => {
+            alert('Error parsing JSON files: ' + err.message);
+        });
+    } else {
+        readJson(fileA).then(result => {
+            window.app.profileA = result;
+            window.app.profileB = null;
+            document.getElementById('chart-b').classList.add('hidden');
+            if (window.app.chartA) window.app.chartA = null;
+            if (window.app.chartB) window.app.chartB = null;
+            initViewer();
+        }).catch(err => {
+            alert('Error parsing JSON file: ' + err.message);
+        });
+    }
+}
+
 
 function loadData() {
     try {
+        /** Decode a base64-encoded JSON blob injected by the Rust backend.
+         * Falls back silently for empty or placeholder values. */
         const getJson = id => {
             const el = document.getElementById(id);
             if (!el) return null;
             const text = el.textContent.trim();
-            return (text && !text.startsWith('/*')) ? JSON.parse(text) : null;
+            if (!text || text.startsWith('/*')) return null;
+            try {
+                return JSON.parse(atob(text));
+            } catch (_) {
+                // Attempt raw JSON parse for drag-and-drop files loaded via handleFiles()
+                return JSON.parse(text);
+            }
         };
         window.app.profileA = getJson('profile-data');
         window.app.profileB = getJson('profile-b-data');
-        window.app.diff = getJson('diff-data');
+        window.app.diffData = getJson('diff-data');
+
+        // Load flamegraph SVG (not base64, injected as raw SVG text)
+        const svgEl = document.getElementById('flamegraph-svg-data');
+        if (svgEl) {
+            const svgText = svgEl.textContent.trim();
+            window.app.flamegraphSvg = (svgText && !svgText.startsWith('/*')) ? svgText : null;
+        }
     } catch (e) {
         console.error('Data loading error', e);
+    }
+}
+
+function setupTabs() {
+    const tabPie   = document.getElementById('tab-pie');
+    const tabFlame = document.getElementById('tab-flame');
+    const viewerContainer  = document.getElementById('viewer-container');
+    const flamegraphView   = document.getElementById('flamegraph-view');
+
+    if (!tabPie || !tabFlame) return;
+
+    tabPie.addEventListener('click', () => {
+        tabPie.classList.add('active');
+        tabFlame.classList.remove('active');
+        viewerContainer.classList.remove('hidden');
+        flamegraphView.classList.add('hidden');
+        // Resize charts to ensure they repaint correctly after being shown
+        if (window.app.chartA) window.app.chartA.resize();
+        if (window.app.chartB) window.app.chartB.resize();
+    });
+
+    tabFlame.addEventListener('click', () => {
+        tabFlame.classList.add('active');
+        tabPie.classList.remove('active');
+        viewerContainer.classList.add('hidden');
+        flamegraphView.classList.remove('hidden');
+    });
+}
+
+function renderFlamegraph() {
+    const container = document.getElementById('flamegraph-container');
+    const emptyMsg  = document.getElementById('flamegraph-empty');
+    if (!container) return;
+
+    const svg = window.app.flamegraphSvg;
+    if (svg) {
+        container.innerHTML = svg;
+        if (emptyMsg) emptyMsg.classList.add('hidden');
+        // Make SVG responsive
+        const svgEl = container.querySelector('svg');
+        if (svgEl) {
+            svgEl.removeAttribute('width');
+            svgEl.removeAttribute('height');
+            svgEl.setAttribute('preserveAspectRatio', 'xMinYMin meet');
+        }
+    } else {
+        container.innerHTML = '';
+        if (emptyMsg) emptyMsg.classList.remove('hidden');
     }
 }
 
@@ -769,17 +1212,24 @@ function updateUI() {
     const hotPathsList = document.getElementById('hot-paths-list');
     hotPathsList.innerHTML = '';
 
-    let pathsToShow = profB ? [...profB.hot_paths] : [...profA.hot_paths];
+    let pathsToShow = profA ? profA.hot_paths : [];
 
-    // sorting logic
-    if (profB) {
-        pathsToShow.sort((a, b) => {
-            const pathA_in_A = profA.hot_paths.find(p => p.stack === a.stack);
-            const pathB_in_A = profA.hot_paths.find(p => p.stack === b.stack);
-            const diffA = a.gas - (pathA_in_A ? pathA_in_A.gas : 0);
-            const diffB = b.gas - (pathB_in_A ? pathB_in_A.gas : 0);
-            return Math.abs(diffB) - Math.abs(diffA); // Sort by largest change magnitude
-        });
+    if (profB && window.app.diffData && window.app.diffData.deltas && window.app.diffData.deltas.hot_paths) {
+        // In diff mode, we show common paths from the diff data
+        pathsToShow = window.app.diffData.deltas.hot_paths.common_paths;
+        // Sort by magnitude of percentage change for diff view
+        pathsToShow.sort((a, b) => Math.abs(b.percent_change) - Math.abs(a.percent_change));
+    } else {
+        // Manual merging/fallback for older data or single profile
+        const allPathsMap = new Map();
+        if (profA) profA.hot_paths.forEach(p => allPathsMap.set(p.stack, p));
+        if (profB) {
+            profB.hot_paths.forEach(p => {
+                if (!allPathsMap.has(p.stack)) allPathsMap.set(p.stack, p);
+            });
+        }
+        pathsToShow = Array.from(allPathsMap.values());
+        pathsToShow.sort((a, b) => (b.gas || 0) - (a.gas || 0));
     }
 
     if (pathsToShow) {
@@ -791,18 +1241,31 @@ function updateUI() {
 
             let deltaDisplay = '';
             let rightSide = '';
-            if (profB) {
-                const pathA = profA.hot_paths.find(p => p.stack === path.stack);
-                const gasA = pathA ? pathA.gas : 0;
-                const gasDiff = path.gas - gasA;
-                const gasPct = gasA === 0 ? (path.gas > 0 ? 100 : 0) : (gasDiff / gasA) * 100;
+
+            // If it's a HotPathComparison object from Rust (it has percent_change)
+            const isDiffComparison = profB && path.hasOwnProperty('percent_change');
+
+            if (isDiffComparison) {
+                const gasDiff = path.gas_change || 0;
+                const gasPct = path.percent_change || 0;
                 const sign = gasDiff > 0 ? '+' : '';
                 const cls = gasDiff > 0 ? 'pos' : (gasDiff < 0 ? 'neg' : 'neutral');
                 deltaDisplay = `<span class="delta ${cls}">${sign}${gasPct.toFixed(2)}%</span>`;
-                rightSide = ''; // Don't show gas in hot path for diff
+                rightSide = ''; 
+            } else if (profB) {
+                // Manual fallback calculation
+                const pathA = profA.hot_paths.find(p => p.stack === path.stack);
+                const gasA = pathA ? (pathA.gas || 0) : 0;
+                const gasB = path.gas || 0;
+                const gasDiff = gasB - gasA;
+                const gasPct = gasA === 0 ? (gasB > 0 ? 100 : 0) : (gasDiff / gasA) * 100;
+                const sign = gasDiff > 0 ? '+' : '';
+                const cls = gasDiff > 0 ? 'pos' : (gasDiff < 0 ? 'neg' : 'neutral');
+                deltaDisplay = `<span class="delta ${cls}">${sign}${gasPct.toFixed(2)}%</span>`;
+                rightSide = ''; 
             } else {
-                deltaDisplay = `<span>[${path.percentage.toFixed(1)}%]</span>`;
-                rightSide = `<span style="opacity: 0.6;">${(path.gas / 1000).toFixed(0)}k gas</span>`;
+                deltaDisplay = `<span>[${(path.percentage || 0).toFixed(1)}%]</span>`;
+                rightSide = `<span style="opacity: 0.6;">${((path.gas || 0) / 1000).toFixed(0)}k gas</span>`;
             }
 
             li.innerHTML = `
@@ -832,6 +1295,47 @@ function updateUI() {
             hotPathsList.appendChild(li);
         });
     }
+
+    // Render category breakdown in sidebar
+    renderCategoryStats(profB || profA);
+}
+
+/**
+ * Aggregate gas by category from a profile's hot_paths and render
+ * a compact color-coded bar list in the sidebar.
+ */
+function renderCategoryStats(profile) {
+    const list = document.getElementById('category-stats-list');
+    if (!list || !profile || !profile.hot_paths) return;
+
+    // Aggregate gas per category
+    const totals = {};
+    let grandTotal = 0;
+    profile.hot_paths.forEach(path => {
+        const cat = path.category || 'Other';
+        totals[cat] = (totals[cat] || 0) + path.gas;
+        grandTotal += path.gas;
+    });
+
+    if (grandTotal === 0) { list.innerHTML = ''; return; }
+
+    // Sort descending by gas
+    const sorted = Object.entries(totals).sort((a, b) => b[1] - a[1]);
+
+    list.innerHTML = sorted.map(([cat, gas]) => {
+        const pct = (gas / grandTotal * 100).toFixed(1);
+        const color = (CONFIG.colors[cat]) || CONFIG.colors.Other;
+        return [
+            '<li class="cat-stat-item">',
+            `  <span class="cat-dot" style="background:${color}"></span>`,
+            `  <span class="cat-name">${cat}</span>`,
+            '  <div class="cat-bar-track">',
+            `    <div class="cat-bar-fill" style="width:${pct}%;background:${color}"></div>`,
+            '  </div>',
+            `  <span class="cat-pct">${pct}%</span>`,
+            '</li>'
+        ].join('');
+    }).join('');
 }
 </script>
 </body>

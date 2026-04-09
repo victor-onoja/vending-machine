@@ -6,7 +6,7 @@ export PRIV_KEY="0xb6b15c8cb491557369f3c7d2c287b053eb229daa9c22138887752191c9520
 
 cargo stylus deploy --endpoint http://localhost:8547 --private-key $PRIV_KEY
 
-export CONTRACT_ADDRESS="0xdb2d15a3eb70c347e0d2c2c7861cafb946baab48"
+export CONTRACT_ADDRESS="0x525c2aba45f66987217323e8a05ea400c65d06dc"
 
 export MY_ADDR="0x3f1Eae7D46d88F08fc2F8ed27FCb2AB183EB2d0E"
 

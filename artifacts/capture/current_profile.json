@@ -1,18 +1,18 @@
 {
   "version": "1.0.0",
-  "transaction_hash": "0x04117d96be4cc37f36eb067353ccb46ac3bcaca1947eb450d3ced32f0dad720b",
+  "transaction_hash": "0x1b7309d14adc0fc57c253ad0ea520ea6790bffed356968886b14c9cedd85350e",
   "total_gas": 5237612355,
   "hostio_summary": {
     "total_calls": 40015,
     "by_type": {
+      "write_result": 1,
       "storage_cache": 2,
-      "msg_value": 1,
+      "storage_flush_cache": 1,
+      "other": 3,
       "storage_load": 20002,
       "read_args": 1,
-      "write_result": 1,
       "native_keccak256": 20003,
-      "other": 3,
-      "storage_flush_cache": 1,
+      "msg_value": 1,
       "msg_reentrant": 1
     },
     "total_hostio_gas": 5237612355
@@ -22,6 +22,7 @@
       "stack": "native_keccak256",
       "gas": 2436365400,
       "percentage": 46.51671858980102,
+      "category": "Crypto",
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -33,6 +34,7 @@
       "stack": "storage_load_bytes32",
       "gas": 2401056960,
       "percentage": 45.84258622553215,
+      "category": "StorageNormal",
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -44,6 +46,7 @@
       "stack": "storage_flush_cache",
       "gas": 400068073,
       "percentage": 7.638367368254767,
+      "category": "StorageExpensive",
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -55,6 +58,7 @@
       "stack": "write_result",
       "gas": 41162,
       "percentage": 0.0007858924488885737,
+      "category": "Memory",
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -66,6 +70,7 @@
       "stack": "storage_cache_bytes32",
       "gas": 36960,
       "percentage": 0.0007056650529838611,
+      "category": "StorageNormal",
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -77,6 +82,7 @@
       "stack": "read_args",
       "gas": 13560,
       "percentage": 0.0002588965941142087,
+      "category": "Memory",
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -88,17 +94,7 @@
       "stack": "msg_value",
       "gas": 13440,
       "percentage": 0.0002566054738123131,
-      "source_hint": {
-        "file": "unknown",
-        "line": null,
-        "column": null,
-        "function": "0x0"
-      }
-    },
-    {
-      "stack": "block_timestamp",
-      "gas": 8400,
-      "percentage": 0.0001603784211326957,
+      "category": "System",
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -110,6 +106,7 @@
       "stack": "msg_reentrant",
       "gas": 8400,
       "percentage": 0.0001603784211326957,
+      "category": "System",
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -118,9 +115,10 @@
       }
     },
     {
-      "stack": "user_returned",
-      "gas": 0,
-      "percentage": 0.0,
+      "stack": "block_timestamp",
+      "gas": 8400,
+      "percentage": 0.0001603784211326957,
+      "category": "System",
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -132,6 +130,19 @@
       "stack": "user_entrypoint",
       "gas": 0,
       "percentage": 0.0,
+      "category": "UserCode",
+      "source_hint": {
+        "file": "unknown",
+        "line": null,
+        "column": null,
+        "function": "0x0"
+      }
+    },
+    {
+      "stack": "user_returned",
+      "gas": 0,
+      "percentage": 0.0,
+      "category": "UserCode",
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -177,25 +188,25 @@
       "last_pc": 0
     },
     {
-      "stack": "block_timestamp",
-      "weight": 8400,
-      "last_pc": 0
-    },
-    {
       "stack": "msg_reentrant",
       "weight": 8400,
       "last_pc": 0
     },
     {
-      "stack": "user_returned",
-      "weight": 0,
+      "stack": "block_timestamp",
+      "weight": 8400,
       "last_pc": 0
     },
     {
       "stack": "user_entrypoint",
       "weight": 0,
       "last_pc": 0
+    },
+    {
+      "stack": "user_returned",
+      "weight": 0,
+      "last_pc": 0
     }
   ],
-  "generated_at": "2026-02-27T21:43:53.706831+00:00"
+  "generated_at": "2026-04-09T04:04:20.611268+00:00"
 }

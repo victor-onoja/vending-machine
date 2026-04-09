@@ -1,19 +1,19 @@
 {
   "version": "1.0.0",
-  "transaction_hash": "0x4e4e4857c4b31a20f2d638eed911bc32398e9fd2a2d11cbacb991d26f2dece25",
+  "transaction_hash": "0x482c0dfd7011be1995ad678e90e5764fe7731762fef272ee4a6163119146b9b0",
   "total_gas": 442692355,
   "hostio_summary": {
     "total_calls": 15,
     "by_type": {
-      "native_keccak256": 3,
-      "storage_flush_cache": 1,
-      "msg_value": 1,
-      "other": 3,
-      "write_result": 1,
-      "storage_load": 2,
-      "storage_cache": 2,
+      "read_args": 1,
       "msg_reentrant": 1,
-      "read_args": 1
+      "storage_load": 2,
+      "msg_value": 1,
+      "native_keccak256": 3,
+      "storage_cache": 2,
+      "other": 3,
+      "storage_flush_cache": 1,
+      "write_result": 1
     },
     "total_hostio_gas": 442692355
   },
@@ -22,6 +22,7 @@
       "stack": "storage_flush_cache",
       "gas": 400068073,
       "percentage": 90.37157937818917,
+      "category": "StorageExpensive",
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -33,6 +34,7 @@
       "stack": "storage_load_bytes32",
       "gas": 42136960,
       "percentage": 9.518339208726566,
+      "category": "StorageNormal",
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -44,6 +46,7 @@
       "stack": "native_keccak256",
       "gas": 365400,
       "percentage": 0.08254039083191306,
+      "category": "Crypto",
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -55,6 +58,7 @@
       "stack": "write_result",
       "gas": 41162,
       "percentage": 0.009298105001158198,
+      "category": "Memory",
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -66,6 +70,7 @@
       "stack": "storage_cache_bytes32",
       "gas": 36960,
       "percentage": 0.00834891309564178,
+      "category": "StorageNormal",
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -77,6 +82,7 @@
       "stack": "read_args",
       "gas": 13560,
       "percentage": 0.0030630752591153288,
+      "category": "Memory",
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -88,6 +94,7 @@
       "stack": "msg_value",
       "gas": 13440,
       "percentage": 0.0030359683984151928,
+      "category": "System",
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -99,6 +106,7 @@
       "stack": "msg_reentrant",
       "gas": 8400,
       "percentage": 0.0018974802490094955,
+      "category": "System",
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -110,6 +118,7 @@
       "stack": "block_timestamp",
       "gas": 8400,
       "percentage": 0.0018974802490094955,
+      "category": "System",
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -121,6 +130,7 @@
       "stack": "user_returned",
       "gas": 0,
       "percentage": 0.0,
+      "category": "UserCode",
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -132,6 +142,7 @@
       "stack": "user_entrypoint",
       "gas": 0,
       "percentage": 0.0,
+      "category": "UserCode",
       "source_hint": {
         "file": "unknown",
         "line": null,
@@ -197,5 +208,5 @@
       "last_pc": 0
     }
   ],
-  "generated_at": "2026-02-27T21:37:30.690809+00:00"
+  "generated_at": "2026-04-09T04:01:19.951552+00:00"
 }

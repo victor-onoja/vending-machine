@@ -6,14 +6,14 @@
     "total_calls": 15,
     "by_type": {
       "write_result": 1,
-      "msg_reentrant": 1,
       "native_keccak256": 3,
-      "storage_load": 2,
-      "msg_value": 1,
-      "other": 3,
       "storage_cache": 2,
+      "other": 3,
+      "msg_value": 1,
+      "storage_load": 2,
       "storage_flush_cache": 1,
-      "read_args": 1
+      "read_args": 1,
+      "msg_reentrant": 1
     },
     "total_hostio_gas": 442692355
   },
@@ -103,18 +103,6 @@
       }
     },
     {
-      "stack": "block_timestamp",
-      "gas": 8400,
-      "percentage": 0.0018974802490094955,
-      "category": "System",
-      "source_hint": {
-        "file": "unknown",
-        "line": null,
-        "column": null,
-        "function": "0x0"
-      }
-    },
-    {
       "stack": "msg_reentrant",
       "gas": 8400,
       "percentage": 0.0018974802490094955,
@@ -127,7 +115,19 @@
       }
     },
     {
-      "stack": "user_returned",
+      "stack": "block_timestamp",
+      "gas": 8400,
+      "percentage": 0.0018974802490094955,
+      "category": "System",
+      "source_hint": {
+        "file": "unknown",
+        "line": null,
+        "column": null,
+        "function": "0x0"
+      }
+    },
+    {
+      "stack": "user_entrypoint",
       "gas": 0,
       "percentage": 0.0,
       "category": "UserCode",
@@ -139,7 +139,7 @@
       }
     },
     {
-      "stack": "user_entrypoint",
+      "stack": "user_returned",
       "gas": 0,
       "percentage": 0.0,
       "category": "UserCode",
@@ -188,25 +188,25 @@
       "last_pc": 0
     },
     {
-      "stack": "block_timestamp",
-      "weight": 8400,
-      "last_pc": 0
-    },
-    {
       "stack": "msg_reentrant",
       "weight": 8400,
       "last_pc": 0
     },
     {
-      "stack": "user_returned",
-      "weight": 0,
+      "stack": "block_timestamp",
+      "weight": 8400,
       "last_pc": 0
     },
     {
       "stack": "user_entrypoint",
       "weight": 0,
       "last_pc": 0
+    },
+    {
+      "stack": "user_returned",
+      "weight": 0,
+      "last_pc": 0
     }
   ],
-  "generated_at": "2026-04-09T04:00:11.848230+00:00"
+  "generated_at": "2026-04-09T04:19:15.254375+00:00"
 }
