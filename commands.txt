@@ -28,11 +28,14 @@ stylus-trace capture \
   --tx $TX_HASH \
   --output profile.json \
   --flamegraph flamegraph.svg \
-  --summary
+  --summary \
+  --view
 
 open flamegraph.svg
 
-stylus-trace diff artifacts/capture/profile.json <NEW_PROFILE_JSON> --threshold-percent 5.0
+stylus-trace view -t artifacts/capture/baseline.json
+
+stylus-trace diff artifacts/capture/profile.json <NEW_PROFILE_JSON> --threshold-percent 5.0 --view
 
 curl -X POST http://localhost:8547 \
   -H "Content-Type: application/json" \
